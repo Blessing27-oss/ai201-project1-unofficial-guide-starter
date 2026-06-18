@@ -235,13 +235,13 @@ yelp_apartment_reviews.txt
 
 | # | Question | Expected answer | System response (summarized) | Retrieval quality | Response accuracy |
 |---|----------|-----------------|------------------------------|-------------------|-------------------|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
+| 1 | What should I look for when inspecting an apartment before signing a lease? | Checks for mold, water damage, working locks, functioning appliances, pest evidence, document with photos | Covered kitchen checklist (stove, fridge, dishwasher, outlets) but omitted bathroom, bedroom checks, and red flags like landlord pressure. Cited only one source despite 4 being retrieved. | Relevant | Partially accurate |
+| 2 | Can a landlord keep my entire security deposit if I leave the apartment dirty? | Landlord can deduct cleaning costs but must itemize; cannot keep full deposit for normal wear and tear | Returned "I don't have enough information in my documents to answer that." — despite the relevant legal rule existing in tenant_rights_guide.txt | Partially relevant | Inaccurate |
+| 3 | What utilities are typically not included in rent for student apartments? | Electricity, internet, renter's insurance commonly excluded; water/trash sometimes included; ask explicitly | Correctly listed electricity, gas/heat, internet, sewer, parking, laundry. Noted water/trash may be included. Cited 4 sources. | Relevant | Accurate |
+| 4 | What are common red flags when touring an apartment? | Unresponsive landlord, water damage signs, pressure to sign immediately, unusually low rent, no written lease | Only named one red flag (pressure to sign same day). Retrieved chunks contained more but LLM synthesized a narrow response. | Relevant | Partially accurate |
+| 5 | How much of my monthly income should I budget for rent as a student? | 30% rule, note students often need roommates or farther locations to stay within budget | Correctly stated the 30% rule and noted it is a guideline. Cited 3 sources. Did not mention roommates or distance trade-off. | Relevant | Accurate |
 
-**Retrieval quality:** Relevant / Partially relevant / Off-target  
+**Retrieval quality:** Relevant / Partially relevant / Off-target
 **Response accuracy:** Accurate / Partially accurate / Inaccurate
 
 ---
@@ -261,11 +261,19 @@ yelp_apartment_reviews.txt
 
 **Question that failed:**
 
+"Can a landlord keep my entire security deposit if I leave the apartment dirty?"
+
 **What the system returned:**
+
+"I don't have enough information in my documents to answer that." — despite `tenant_rights_guide.txt` containing this directly: *"Normal wear and tear vs. damage: Landlords can deduct from a deposit for damage beyond normal wear and tear, but not for ordinary use. Normal wear and tear includes minor scuffs, small nail holes, carpet wear from regular foot traffic."*
 
 **Root cause (tied to a specific pipeline stage):**
 
+The failure is at the **retrieval stage**, caused by a vocabulary mismatch between the query and the relevant chunk. The query uses the word "dirty," but the key document (`tenant_rights_guide.txt`) uses the legal term "normal wear and tear" to describe the same concept. The `all-MiniLM-L6-v2` embedding model maps these phrases to different regions of the vector space — "dirty apartment" is semantically closer to cleaning and mess, while "normal wear and tear" is legal/contractual language. The chunk that directly answers the question (the normal wear and tear section) ranked outside the top 5 results, so the model never received the relevant context. The retrieved chunks covered security deposits generally (deposit return timelines, itemization requirements) but didn't include the specific rule about what landlords can and cannot deduct for a dirty unit. With no directly relevant chunk in its context window, the model correctly refused to answer — the grounding worked as intended, but retrieval failed to surface the right content.
+
 **What you would change to fix it:**
+
+Two targeted fixes: (1) **Query expansion** — before embedding the query, rephrase it with synonyms: "dirty apartment" → "normal wear and tear OR cleaning fees OR deposit deduction for cleanliness." This broadens the semantic search to catch legal-register documents. (2) **Increase top-k** — raising k from 5 to 8 would bring more chunks into context, increasing the probability that the wear-and-tear chunk appears. The tradeoff is more noise in the context window, but for a domain with consistent vocabulary mismatches between informal queries and formal document language, broader retrieval is preferable to narrow precision.
 
 ---
 
@@ -276,7 +284,11 @@ yelp_apartment_reviews.txt
 
 **One way the spec helped you during implementation:**
 
+The Evaluation Plan in `planning.md` was the most valuable part of the spec. Writing 5 specific test questions before building anything forced me to think about what "works" means concretely. When Q2 (the security deposit/dirty apartment question) returned a refusal, I immediately knew it was a failure because I had a written expected answer to compare against — the system should have cited the normal wear and tear rule. Without a pre-written evaluation plan, I might have accepted the refusal as reasonable behavior and moved on. The spec also made the failure diagnosable: because I had identified the specific relevant information in advance, I could trace exactly which chunk was missing from retrieval and why.
+
 **One way your implementation diverged from the spec, and why:**
+
+The spec called for `chunk_size = 400 characters` with `overlap = 80 characters`, and I implemented exactly that. However, the failure on Q2 revealed that fixed-character chunking has a structural weakness: it doesn't respect logical boundaries in the source documents. The `tenant_rights_guide.txt` has entries separated by blank lines, each covering a distinct legal concept. A character-based chunker splits across these boundaries regardless of meaning, which is why the "normal wear and tear" rule ended up split between two chunks — neither of which contained enough context to match a query about "dirty apartments." If I were rebuilding, I would use paragraph-based chunking (split on double newlines) for structured guide documents, reserving character-based chunking for the review files where paragraph boundaries are inconsistent. The spec did not anticipate this distinction because I hadn't read the documents closely enough when writing it.
 
 ---
 
@@ -293,12 +305,12 @@ yelp_apartment_reviews.txt
 
 **Instance 1**
 
-- *What I gave the AI:*
-- *What it produced:*
-- *What I changed or overrode:*
+- *What I gave the AI:* The Chunking Strategy section from `planning.md` (chunk_size=400 chars, overlap=80 chars, two document types: short reviews and long guides), the Documents section listing 12 `.txt` files, and asked Claude to implement `load_documents(folder_path)` and `chunk_text(text, chunk_size, overlap)` functions for `ingest.py`.
+- *What it produced:* A `load_documents()` function that reads `.txt` files and returns `{text, source}` dicts, and a `chunk_text()` function using a sliding window with character-based splitting. It also included a `clean_text()` function that stripped HTML tags and decoded HTML entities, which I hadn't explicitly asked for but was clearly needed given that some source text might contain web-copy artifacts.
+- *What I changed or overrode:* The generated `chunk_text()` function used `text[start:end]` without calling `.strip()` on the result, which left leading/trailing whitespace on some chunks. I added `.strip()` to the chunk before appending it, and added a `len(chunk) > 0` guard to prevent empty chunks from entering the corpus. I also added the overlap verification section to `__main__` to test that adjacent chunks actually share text, which the original code did not include.
 
 **Instance 2**
 
-- *What I gave the AI:*
-- *What it produced:*
-- *What I changed or overrode:*
+- *What I gave the AI:* The Retrieval Approach section from `planning.md` (all-MiniLM-L6-v2, top-k=5, cosine similarity), the Architecture ASCII diagram labeling ChromaDB as the vector store, and asked Claude to implement `build_index(corpus)` and `retrieve(query, collection, model, k)` functions for `embed.py`.
+- *What it produced:* A complete `build_index()` function that embedded chunks using `SentenceTransformer`, created a ChromaDB persistent collection with cosine similarity, and upserted all chunks with metadata. The `retrieve()` function embedded the query and called `collection.query()`, returning documents, metadata, and distances.
+- *What I changed or overrode:* The generated code used ChromaDB's default L2 (Euclidean) distance metric. I overrode this by explicitly setting `metadata={"hnsw:space": "cosine"}` on collection creation, because cosine similarity is more appropriate for text embeddings — it measures directional similarity rather than magnitude, which is what matters when comparing meaning. I also added a `delete_collection` call before `create_collection` so that re-running the script rebuilds the index cleanly rather than accumulating duplicate entries.
