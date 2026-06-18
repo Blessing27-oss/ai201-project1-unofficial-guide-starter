@@ -137,7 +137,20 @@ Relevance explanation: This query got the strongest retrieval of the three (top 
 
 **System prompt grounding instruction:**
 
+The system prompt passed to the LLM before every query:
+
+> "You are a helpful assistant for students researching off-campus housing.
+> STRICT RULES — follow these exactly:
+> 1. Answer ONLY using information explicitly stated in the CONTEXT DOCUMENTS below.
+> 2. Do NOT use your general training knowledge. If the context does not contain enough information to answer the question, respond with: 'I don't have enough information in my documents to answer that.'
+> 3. After your answer, list the source documents you drew from under a line that reads 'Sources:'. Use the exact filenames provided in each document's header.
+> 4. Keep your answer focused and practical. Students are making real housing decisions."
+
+The user message then injects the retrieved chunks formatted as labeled sections (`[Document 1: filename.txt]`) before the question, making the boundary between context and question explicit.
+
 **How source attribution is surfaced in the response:**
+
+Two mechanisms work together. The LLM is instructed to list source filenames at the end of every response under a "Sources:" heading. Additionally, `query.py` programmatically collects unique source filenames from the retrieved chunks and returns them in the result dict — so even if the model omits a citation, the interface can display all retrieved sources. Both are shown to the user in the Gradio interface.
 
 ---
 
@@ -149,29 +162,44 @@ Relevance explanation: This query got the strongest retrieval of the three (top 
 
 **Grounded response 1**
 
-Query:
+Query: What should I look for when inspecting an apartment before signing a lease?
 
-Response:
+Response: When inspecting an apartment before signing a lease, you should check the kitchen to ensure that the stove burners and oven work at all settings, the refrigerator maintains temperature and has intact door seals, and the dishwasher runs a full cycle without leaking. You should also check that the garbage disposal works, look under the sink for signs of water damage or mold, and verify that outlets near the sink are GFCI-protected. Additionally, you should check the bathroom to ensure that hot water reaches adequate temperature within 60 seconds, the shower pressure is acceptable, the toilet flushes and refills completely without running, and there is no mold visible in grout, caulk, or ceiling corners. In the bedroom and living areas, you should test all outlets, ensure windows open, close, and lock properly, and check that closet doors open and close without sticking. You should also look for any stains on the carpet or damage on hardwood floors, and make sure there are no holes or large marks on the walls beyond minor scuffs. Before you sign, you should also review the entire lease and check for red flags such as a landlord who pressures you to sign the same day you tour.
 
-Source attribution:
+Sources:
+first_apartment_checklist.txt
+
+Source attribution: LLM cited `first_apartment_checklist.txt`; programmatic sources also include `apartments_com_student_guide.txt`, `reddit_offcampus_tips.txt`, `rent_com_offcampus_guide.txt`.
 
 ---
 
 **Grounded response 2**
 
-Query:
+Query: What utilities are typically not included in rent for student apartments?
 
-Response:
+Response: Based on the context documents, utilities that are typically not included in rent for student apartments include electricity, gas/heat, internet, and sometimes water and trash (although these may be included in some cases). Additionally, other utilities such as sewer, parking, laundry, and common-area maintenance fees may also not be included in rent. It is important to always ask specifically whether these are included or excluded from rent, as not all apartment listings are transparent about utilities. Students should be aware that "some utilities included" in a listing can be misleading, and it is important to get the specific list of included utilities in writing.
 
-Source attribution:
+Sources:
+reddit_offcampus_tips.txt
+apartments_com_student_guide.txt
+apartment_ratings_reviews.txt
+yelp_apartment_reviews.txt
+
+Source attribution: LLM cited all four source files; programmatic sources match exactly.
 
 ---
 
 **Out-of-scope query**
 
-Query:
+Query: What is the best restaurant in Paris?
 
-System response (refusal):
+System response (refusal): I don't have enough information in my documents to answer that.
+
+Sources:
+myapartmentmap_reviews.txt
+rent_com_offcampus_guide.txt
+apartments_com_student_guide.txt
+yelp_apartment_reviews.txt
 
 ---
 
@@ -180,20 +208,22 @@ System response (refusal):
 <!-- Describe your query interface: what are the input fields, what does the output look like?
      Then provide a complete sample interaction transcript showing a real exchange. -->
 
-**Input fields:**
+**Input fields:** A single text box labeled "Your question" where the student types a free-form housing question. A primary "Ask" button submits the query. Five pre-loaded example question buttons let users click directly without typing. Pressing Enter in the text box also triggers a query.
 
-**Output format:**
+**Output format:** Two read-only text areas below the input. The first, labeled "Answer," displays the LLM's grounded response (typically 3–8 sentences). The second, labeled "Retrieved from," lists the source document filenames the answer drew from, one per line with a bullet prefix.
 
 ---
 
 **Sample Interaction Transcript**
 
-<!-- Show a complete query → response exchange as it actually appears in your interface.
-     Must be text — not a screenshot. -->
+> **User:** How do I get my security deposit back after moving out?
 
-> **User:** 
-
-> **System:** 
+> **System:** To get your security deposit back after moving out, you should follow these steps. Before moving out, make sure to provide the required notice as specified in your lease (typically 30-60 days). Clean the unit to the standard it was in when you moved in, as landlords can only charge for cleaning if the unit was left in a condition requiring it — dirtier than when you moved in, accounting for normal use. Request a final walkthrough with your landlord before you leave the keys, as this gives both parties a chance to identify any issues and agree on their status. Provide your landlord with a forwarding address in writing so they can return your deposit by mail. After moving out, your landlord must return your deposit within the state-mandated timeframe (usually 14-30 days) with an itemized statement of any deductions. Keep copies of all maintenance requests you submitted and compare them against any claimed damage. If you believe deductions are improper, you can dispute them in small claims court.
+>
+> Sources:
+> • first_apartment_checklist.txt
+> • apartments_com_student_guide.txt
+> • tenant_rights_guide.txt
 
 ---
 
