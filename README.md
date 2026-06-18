@@ -81,9 +81,9 @@ This knowledge is valuable because it directly affects thousands of dollars in r
      Consider: context length limits, multilingual support, accuracy on domain-specific text,
      latency, and local vs. API-hosted. -->
 
-**Model used:**
+**Model used:** `all-MiniLM-L6-v2` via `sentence-transformers` (runs locally, no API key required)
 
-**Production tradeoff reflection:**
+**Production tradeoff reflection:** `all-MiniLM-L6-v2` is fast, free, and runs entirely on-device, which makes it ideal for a student project with no budget. For a real deployment I would weigh several tradeoffs. First, domain accuracy: this model was trained on general English text, not student housing jargon — a model fine-tuned on informal review corpora (Yelp, Reddit) would better understand phrases like "management is garbage" or "the AC dies every August." Second, context length: `all-MiniLM-L6-v2` truncates at 256 tokens, which is fine for 400-character chunks but would drop content in longer chunks; `all-mpnet-base-v2` handles 512 tokens. Third, latency vs. accuracy: OpenAI's `text-embedding-3-small` produces higher-quality embeddings but adds API latency and cost per query. For a high-traffic student tool, the local model's zero marginal cost would outweigh the marginal accuracy gain.
 
 ---
 
@@ -93,36 +93,36 @@ This knowledge is valuable because it directly affects thousands of dollars in r
      For at least 2 of the 3, explain why the returned chunks are relevant to the query.
      Results must be text — not screenshots. -->
 
-**Query 1:**
+**Query 1:** What should I look for when inspecting an apartment before signing a lease?
 
 Top returned chunks:
--
--
--
+- `apartments_com_student_guide.txt` (distance 0.31) — "What to look for in a lease before signing: Read the entire lease, not just the rent amount. Key sections to review: lease term and end date, rent amount and due date, late fee amount and grace period..."
+- `reddit_offcampus_tips.txt` (distance 0.39) — "Red flag: if the landlord pressures you to sign the same day you tour, walk away. A legitimate landlord will give you at least 24-48 hours to review the lease..."
+- `first_apartment_checklist.txt` (distance 0.41) — "BEFORE YOU SIGN THE LEASE — Budget check, Utility confirmation, Lease review..."
 
-Relevance explanation:
+Relevance explanation: All three chunks directly address pre-signing inspection and lease review. The top result covers what sections of a lease to examine; the second adds behavioral red flags during a tour; the third provides a room-by-room checklist. Together they give a complete picture. The 0.31 distance on the top result indicates a strong semantic match despite the query not using the exact phrase "what to look for."
 
 ---
 
-**Query 2:**
+**Query 2:** Can a landlord keep my entire security deposit if I leave the apartment dirty?
 
 Top returned chunks:
--
--
--
+- `tenant_rights_guide.txt` (distance 0.35) — "Security deposits: Most states cap security deposits at one to two months' rent. Landlords must return the deposit within a legally specified window... they must provide an itemized written statement of any deductions."
+- `reddit_offcampus_tips.txt` (distance 0.37) — "My landlord tried to keep my entire $1,200 deposit because I left a nail hole in the wall. My state's tenant law says nail holes are considered normal wear and tear..."
+- `apartments_com_student_guide.txt` (distance 0.42) — "After you move out, your landlord must return your deposit within the state-mandated timeframe (usually 14-30 days) with an itemized statement of any deductions..."
 
-Relevance explanation:
+Relevance explanation: The top result from the legal guide directly answers the question: landlords must itemize deductions and can only charge for damage beyond normal wear and tear, not for ordinary dirtiness. The second result is a first-person account of exactly this scenario (deposit dispute over normal wear). Both are highly on-target. Distance scores around 0.35–0.42 confirm strong matches.
 
 ---
 
-**Query 3:**
+**Query 3:** What utilities are typically not included in rent for student apartments?
 
 Top returned chunks:
--
--
--
+- `reddit_offcampus_tips.txt` (distance 0.27) — "Don't sign a lease that doesn't specify who pays which utilities. I've seen leases that say 'tenant pays utilities' but don't clarify water, trash, gas, or common-area electricity..."
+- `apartments_com_student_guide.txt` (distance 0.35) — "Always ask specifically whether these are included or excluded from rent: electricity, gas/heat, water, sewer, trash collection, internet, parking, laundry..."
+- `yelp_apartment_reviews.txt` (distance 0.39) — "Northgate Student Housing — 1 star: The 'all utilities included' in the listing was a lie. Water and trash were included. Electricity had a cap of $75/month..."
 
-Relevance explanation:
+Relevance explanation: This query got the strongest retrieval of the three (top distance 0.27). The first result is a direct Reddit warning about vague utility clauses; the second lists every common utility category and its typical inclusion status; the third is a real student review documenting a utility cap trap. The system retrieved from three different source types (forum, guide, review), demonstrating that the embeddings are finding semantically similar content across varied document structures.
 
 ---
 
