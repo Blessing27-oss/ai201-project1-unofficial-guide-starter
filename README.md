@@ -9,10 +9,9 @@
 
 ## Domain
 
-<!-- What topic or category of knowledge does your system cover?
-     Why is this knowledge valuable, and why is it hard to find through official channels?
-     Example: "Student reviews of CS professors at [university] — useful because official
-     course descriptions don't reflect teaching style, exam difficulty, or workload." -->
+**Off-campus student housing** — practical, experience-based knowledge about renting apartments, understanding leases, avoiding bad landlords, and managing the real costs of living independently as a student.
+
+This knowledge is valuable because it directly affects thousands of dollars in rent decisions and legal obligations, yet it's almost impossible to find through official channels. University housing offices share sanitized listings and generic checklists; they don't publish candid landlord reviews, document common lease traps, or explain what happens when a roommate stops paying rent. The real knowledge — which complexes have chronic maintenance issues, what utilities are typically excluded from "utilities included" listings, how to fight an improper security deposit deduction — lives scattered across Reddit threads, anonymous reviews, and word-of-mouth that evaporates when students graduate.
 
 ---
 
@@ -24,16 +23,18 @@
 
 | # | Source | Type | URL or file path |
 |---|--------|------|-----------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
-| 6 | | | |
-| 7 | | | |
-| 8 | | | |
-| 9 | | | |
-| 10 | | | |
+| 1 | Reddit r/offcampushousing | Reddit forum posts | https://www.reddit.com/r/offcampushousing/ |
+| 2 | Reddit r/college — housing advice threads | Reddit forum posts | https://www.reddit.com/r/college/ |
+| 3 | Reddit r/personalfinance — first apartment budgeting | Reddit forum posts | https://www.reddit.com/r/personalfinance/ |
+| 4 | Reddit r/legaladvice — lease disputes and tenant issues | Reddit forum posts | https://www.reddit.com/r/legaladvice/ |
+| 5 | Nolo.com — Tenant Rights and Responsibilities | Legal guide article | https://www.nolo.com/legal-encyclopedia/tenant-rights-responsibilities.html |
+| 6 | Apartments.com Blog — Off-Campus Renting Tips | How-to article | https://www.apartments.com/blog/renting-off-campus-apartment-tips |
+| 7 | Rent.com Blog — Off-Campus Housing Guide for Students | How-to article | https://www.rent.com/blog/off-campus-housing-guide-for-students/ |
+| 8 | Zillow Learn — First-Time Renter Tips | How-to article | https://www.zillow.com/learn/first-time-renter-tips/ |
+| 9 | The Balance Money — First Apartment Checklist | Checklist article | https://www.thebalancemoney.com/first-apartment-checklist-1289714 |
+| 10 | ApartmentRatings.com — student complex reviews | Review aggregator | https://www.apartmentratings.com |
+| 11 | Yelp — student apartment complex reviews | Review aggregator | https://www.yelp.com (apartments near campus) |
+| 12 | MyApartmentMap.com — campus proximity reviews | Review aggregator | https://www.myapartmentmap.com |
 
 ---
 
@@ -46,13 +47,13 @@
      - Any preprocessing you did before chunking (e.g., stripping HTML, removing headers)
      - What your final chunk count was across all documents -->
 
-**Chunk size:**
+**Chunk size:** 400 characters
 
-**Overlap:**
+**Overlap:** 80 characters
 
-**Why these choices fit your documents:**
+**Why these choices fit your documents:** The corpus mixes two document types. Short Reddit/Yelp reviews are typically 1–4 sentences (100–300 characters), so a 400-character chunk fits one complete review without merging it with an unrelated one. Longer guide articles (Nolo, Apartments.com, Zillow) have paragraphs of 200–500 characters, so 400 characters captures roughly one logical point — e.g., "how to inspect for mold" or "what landlords can deduct from deposits" — without diluting the embedding with multiple unrelated topics. The 80-character overlap ensures that a key fact split at a chunk boundary (e.g., a legal rule split across two chunks) still appears in at least one complete chunk. Pre-processing: HTML tags removed, HTML entities decoded, consecutive blank lines collapsed, leading/trailing whitespace stripped per line.
 
-**Final chunk count:**
+**Final chunk count:** 176 chunks across 13 documents (12–16 chunks per document)
 
 ---
 
@@ -64,11 +65,11 @@
 
 | # | Source document | Chunk text |
 |---|----------------|------------|
-| 1 | | |
-| 2 | | |
-| 3 | | |
-| 4 | | |
-| 5 | | |
+| 1 | `apartments_com_student_guide.txt` | Don't apply to five apartments at once unless you're prepared to lose $200 in fees. Prioritize and apply to your top two choices first. --- Renters insurance is not optional: Your landlord's property insurance covers the building's structure, not your belongings. If there's a fire, a burst pipe, or a break-in, you get nothing for your laptop, TV, or clothes without renters insurance. Policies ty... |
+| 2 | `myapartmentmap_reviews.txt` | I could hear my upstairs neighbor's alarm clock every morning. If noise sensitivity is a concern, ask to see a unit that isn't on the ground floor or directly below another unit. Parking is $95/month extra. Management is professional and responds within a day or two. --- Birchwood Apartments — 4/5 Best-kept secret near campus. A 15-minute bike ride from the main buildings, but the lower rent mor... |
+| 3 | `reddit_college_housing.txt` | Budget for this. --- Ask about noise before you move in. Apartments above bars or near fraternity houses can be loud on weekends. Ask current tenants (knock on a neighbor's door) what noise is like, not just the landlord. The landlord will always say it's quiet. --- Internet is the most commonly forgotten utility for students. Most apartments don't include it. Budget $50-80/month for a reliabl... |
+| 4 | `reddit_legaladvice_lease.txt` | Mold that affects habitability is a landlord's responsibility to remediate. Document it: photographs with timestamps, written requests to the landlord, the landlord's written or verbal responses. If the landlord ignores written requests, you may be able to: withhold rent (escrow it while the dispute is pending), file a complaint with your local housing authority, or in some states, break the leas... |
+| 5 | `reddit_offcampus_tips.txt` | That means if your roommate stops paying rent, you're on the hook for their share too. The landlord doesn't have to chase your roommate first — they can come straight to you. Have a roommate agreement that covers who pays what and what happens if someone needs to leave early. --- Renter's insurance is cheap ($10-20/month) and almost everyone skips it. Your landlord's property insurance covers t... |
 
 ---
 

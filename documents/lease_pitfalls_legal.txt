@@ -1,0 +1,49 @@
+Source: Reddit r/legaladvice — Curated threads on lease disputes and tenant legal issues
+
+---
+
+Thread: Landlord is withholding my entire deposit for "repainting." Is this legal?
+
+In most states, landlords can only charge for repainting if the damage goes beyond normal wear and tear. A few scuffs from furniture or minor marks from pictures are generally considered normal wear and tear and are not chargeable. If the walls were freshly painted when you moved in and you've lived there for one year, minor marks are expected. If you painted a wall a different color without permission, that's chargeable. Take photos of the walls before you hand in your keys and document their actual condition.
+
+---
+
+Thread: My roommate stopped paying rent and the landlord is coming after me. What can I do?
+
+If you and your roommate co-signed the lease, you are jointly and severally liable for the full rent, not just half. Your landlord has the legal right to pursue either or both of you for the full amount. Your options: pay the full rent to protect your tenancy and pursue your roommate separately in small claims court for their share; negotiate with your landlord about the timeline; or attempt to reach an agreement with your roommate about their exit. Having a written roommate agreement before this happens is the best preventive measure.
+
+---
+
+Thread: My landlord entered my apartment without notice. Is that allowed?
+
+In almost every U.S. state, landlords must give at least 24 hours advance notice before entering for non-emergency purposes. Your right to "quiet enjoyment" of the property is implied in every residential lease. If your landlord is entering without notice repeatedly, document it (dates, times, any communications). You can send a formal written notice citing your state's tenant entry law. If it continues, you may have grounds for breaking the lease without penalty.
+
+---
+
+Thread: The lease has a clause saying I'm responsible for all repairs under $200. Is this enforceable?
+
+Lease clauses shifting habitability maintenance to tenants are often unenforceable, but "repair and maintenance" clauses for minor items (unclogging a drain, replacing lightbulbs) may be legal depending on your state. A clause that forces you to pay for repairs to structural systems (HVAC, plumbing) or items that affect habitability is likely not enforceable — landlords cannot contract out of their duty to maintain habitable conditions. If your state's landlord-tenant law doesn't allow it, the clause is void even if you signed it.
+
+---
+
+Thread: Landlord wants to charge me a $250 "professional cleaning fee" regardless of condition. Is this normal?
+
+Mandatory cleaning fees regardless of condition are illegal in many states. A landlord can charge for cleaning only if the unit was left in a condition requiring it — dirtier than when you moved in, accounting for normal use. A flat fee in the lease for cleaning that applies no matter what is often held to be an improper forfeiture of deposit rather than a legitimate deduction. Check your state's security deposit statute. Document the unit's clean condition on move-out.
+
+---
+
+Thread: I need to break my lease 4 months early for a job across the country. What are my obligations?
+
+If you break a lease early, you are generally liable for rent until the lease ends or a new tenant is found, whichever comes first. Most states require the landlord to make a good-faith effort to re-rent the unit (mitigation of damages). If they re-rent in two months and your lease had four months remaining, you owe two months, not four. Provide written notice as early as possible, document everything, and keep records of any communication about re-renting. Some leases also include an early termination clause with a set fee — this can be better or worse than owing remaining rent depending on timing.
+
+---
+
+Thread: My building was sold and the new owner says my lease isn't valid. Is that true?
+
+In most states, a lease survives a sale of the property. The new owner takes the property subject to existing leases and must honor them for their remaining term. They can choose not to renew when the lease ends, or they may be able to buy out your tenancy in some circumstances. But a mid-lease sale does not automatically terminate your tenancy. If a new owner pressures you to leave before your lease ends, consult a tenant rights organization in your area.
+
+---
+
+Thread: My landlord hasn't returned my deposit 45 days after move-out. What can I do?
+
+Most states require deposit return within 14-30 days of move-out. At 45 days without return or itemization, your landlord is likely in violation of state law. Many states penalize landlords who miss the deadline — in some states, they forfeit the right to keep any portion of the deposit; in others, you can claim double or triple damages. Send a certified letter demanding return of the deposit and citing your state's specific statute. If you don't get a response within 10 days, file in small claims court. The filing fee is typically $30-75 and the process is designed for non-lawyers.

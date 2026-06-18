@@ -1,0 +1,51 @@
+Source: Reddit r/legaladvice and r/tenant — Threads on student lease issues and housing disputes
+
+---
+
+My landlord is threatening to evict me if I don't pay a fee that isn't in my lease. What do I do?
+
+A landlord can only charge fees explicitly authorized in your lease or by state law. If a fee isn't in the lease, you are generally not obligated to pay it. Respond in writing (email is fine) stating that you are aware of no provision in your lease authorizing the fee and requesting clarification of its legal basis. Keep all correspondence. Do not pay undocumented fees — paying once can be interpreted as acceptance of future similar charges.
+
+---
+
+Can my landlord refuse to renew my lease without giving a reason?
+
+In most states with "no-fault eviction" laws, a landlord can decline to renew a lease when it expires without giving a reason, as long as they provide proper notice (typically 30-60 days). Exceptions: some cities with strong tenant protections require "just cause" for non-renewal. Rent-controlled jurisdictions often have stricter rules. Look up your specific city and state laws — they vary significantly.
+
+---
+
+I signed a lease with a roommate who turned out to be the worst. Can I get out of the lease?
+
+Breaking a joint lease early requires either the landlord's agreement or meeting one of the grounds for legal lease termination (habitability issues, landlord breach, etc.). Conflict with a roommate generally doesn't give you independent grounds to break a lease. Options: (1) negotiate with the landlord to replace you on the lease with a new tenant; (2) have the roommate leave instead if they're willing; (3) break the lease and accept the financial consequences; (4) wait out the lease term. A written roommate agreement can help resolve the internal dispute but doesn't affect lease obligations to the landlord.
+
+---
+
+My unit has mold and the landlord won't fix it. What are my rights?
+
+Mold that affects habitability is a landlord's responsibility to remediate. Document it: photographs with timestamps, written requests to the landlord, the landlord's written or verbal responses. If the landlord ignores written requests, you may be able to: withhold rent (escrow it while the dispute is pending), file a complaint with your local housing authority, or in some states, break the lease due to uninhabitable conditions. Contact a local tenant rights organization — many offer free consultations.
+
+---
+
+My landlord increased rent mid-lease. Is that legal?
+
+In almost all states, a landlord cannot increase rent during an active lease term. Rent is fixed until the lease expires. Mid-lease rent increases are a common pressure tactic by unscrupulous landlords but are generally unenforceable. Respond in writing, citing your lease's rent clause and your state's prohibition on mid-lease rent changes. If the landlord retaliates (attempts eviction, harassment), document everything and contact a tenant rights organization.
+
+---
+
+How much notice does a landlord have to give before entering my apartment?
+
+Most states require at least 24 hours notice before a landlord enters for routine inspection, maintenance, or showings. Some states require 48 hours. Entry without notice is generally only permitted in genuine emergencies (fire, flood, gas leak). A landlord who shows up unannounced repeatedly is violating your right to quiet enjoyment — document each unauthorized entry and send a written notice citing your state's entry law.
+
+---
+
+Security deposit: what can and cannot be deducted
+
+Legal deductions: cost to repair actual damage beyond normal wear and tear, cost to clean a unit left dirtier than move-in condition, unpaid rent.
+
+Illegal deductions in most states: cost to repaint for normal wear, professional cleaning fees when the unit was left in reasonable condition, administrative fees for processing the move-out, charges for items that were already damaged at move-in (this is why move-in documentation matters), depreciated items charged at full replacement cost (a 5-year-old carpet cannot be charged as a new carpet).
+
+---
+
+I broke something in the apartment by accident. Do I have to pay for it?
+
+Accidental damage is still damage, and landlords can charge tenants for it. The amount must be reasonable and reflect actual repair or replacement cost accounting for the item's age and depreciation. You cannot be charged full replacement cost for a 10-year-old refrigerator if you dented it. Proactive communication often goes better than waiting for the landlord to discover damage — report it promptly and get an estimate in writing before work begins.
